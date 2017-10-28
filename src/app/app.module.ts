@@ -12,6 +12,7 @@ import { HomePage } from '../pages/home/home';
 import { MapPage } from '../pages/map/map';
 import { TabsPage } from '../pages/tabs/tabs';
 import { DashboardPage } from '../pages/dashboard/dashboard';
+import { ModalContentPage } from '../pages/dashboard/dashboard';
 
 import { ListPage } from '../pages/list/list';
 import { Connectivity} from '../providers/connectivity/connectivity';
@@ -32,7 +33,8 @@ export function provideStorage() {
     TabsPage,
     MapPage,
     ListPage,
-    DashboardPage
+    DashboardPage,
+    ModalContentPage
   ],
   imports: [
     BrowserModule,
@@ -46,7 +48,8 @@ export function provideStorage() {
     TabsPage,
     MapPage,
     ListPage,
-    DashboardPage
+    DashboardPage,
+    ModalContentPage
   ],
   providers: [
     StatusBar,
@@ -58,7 +61,8 @@ export function provideStorage() {
     Locations,
     UserData,
     Connectivity,
-    Firebase
+    Firebase,
+    ModalContentPage
   ]
 })
 export class AppModule {}
