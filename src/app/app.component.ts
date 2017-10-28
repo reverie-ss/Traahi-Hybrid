@@ -2,10 +2,14 @@ import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { Connectivity} from '../providers/connectivity/connectivity';
+import { GoogleMaps } from '../providers/connectivity/google-maps';
+import { Locations } from '../providers/connectivity/locations';
 
-import { HomePage } from '../pages/home/home';
+import {HomePage} from '../pages/home/home'
 @Component({
-  templateUrl: 'app.html'
+  templateUrl: 'app.html',
+   providers: [GoogleMaps, Connectivity,Locations]
 })
 export class MyApp {
   rootPage:any = HomePage;
