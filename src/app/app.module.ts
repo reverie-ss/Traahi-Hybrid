@@ -3,20 +3,21 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
+import { Storage } from '@ionic/storage';
+import { Firebase } from '@ionic-native/firebase';
+import { HttpModule } from '@angular/http';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { MapPage } from '../pages/map/map';
 import { TabsPage } from '../pages/tabs/tabs';
+import { DashboardPage } from '../pages/dashboard/dashboard';
 
 import { ListPage } from '../pages/list/list';
 import { Connectivity} from '../providers/connectivity/connectivity';
 import { GoogleMaps } from '../providers/connectivity/google-maps';
 import { Locations } from '../providers/connectivity/locations';
-import { HttpModule } from '@angular/http';
 import { UserData } from '../providers/userdata';
-import { Storage } from '@ionic/storage';
-import { Firebase } from '@ionic-native/firebase';
 
 
 
@@ -30,7 +31,8 @@ export function provideStorage() {
     HomePage,
     TabsPage,
     MapPage,
-    ListPage
+    ListPage,
+    DashboardPage
   ],
   imports: [
     BrowserModule,
@@ -43,7 +45,8 @@ export function provideStorage() {
     HomePage,
     TabsPage,
     MapPage,
-    ListPage
+    ListPage,
+    DashboardPage
   ],
   providers: [
     StatusBar,

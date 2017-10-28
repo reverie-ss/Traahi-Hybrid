@@ -21,6 +21,7 @@
     "@angular/platform-browser": "4.4.4",
     "@angular/platform-browser-dynamic": "4.4.4",
     "@ionic-native/core": "^4.3.2",
+    "@ionic-native/file": "^4.3.2",
     "@ionic-native/firebase": "^4.3.2",
     "@ionic-native/geolocation": "^4.3.2",
     "@ionic-native/network": "^4.3.2",
@@ -31,6 +32,7 @@
     "cordova-android": "^6.2.3",
     "cordova-plugin-compat": "^1.0.0",
     "cordova-plugin-device": "^1.1.4",
+    "cordova-plugin-file": "^4.3.3",
     "cordova-plugin-firebase": "^0.1.24",
     "cordova-plugin-geolocation": "^2.4.3",
     "cordova-plugin-ionic-webview": "^1.1.11",
@@ -62,7 +64,8 @@
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-whitelist": {},
       "ionic-plugin-keyboard": {},
-      "cordova-plugin-firebase": {}
+      "cordova-plugin-firebase": {},
+      "cordova-plugin-file": {}
     },
     "platforms": [
       "android"
