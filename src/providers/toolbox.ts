@@ -95,13 +95,13 @@ static listenFirebaseNotification(platform: any, firebase: any, userdata: any, x
 			}
 			])
 		// acknowledge message at backend
-		Promise.resolve("proceed")
-		.then((proceed) => {
-			console.log("acknowledging message");
-			return this.acknowledge_message_sent(notification.message_id, userdata, xml_rpc);
-		}).catch((error) => {
-			console.log("Error acknowledging message");
-		});
+		// Promise.resolve("proceed")
+		// .then((proceed) => {
+		// 	console.log("acknowledging message");
+		// 	return this.acknowledge_message_sent(notification.message_id, userdata, xml_rpc);
+		// }).catch((error) => {
+		// 	console.log("Error acknowledging message");
+		// });
 	},
 	(error) => {
 		console.log("error receiving notification");
@@ -245,41 +245,6 @@ static checkFirebaseToken(actualFirebaseToken: string, userdata: any, xml_rpc: a
 	// 	});
 	// }
 
-	static upload_photo_to_google_vision(photo: string, http: Http): Promise<any> {
-		return new Promise((resolve, reject) => {
-			let headers = new Headers();
-			headers.append("Content-Type","application/json");
-			let body = {
-				"requests":[
-				{
-					"image":{
-						"content":photo
-					},
-					"features":[
-					{
-						"type":"TEXT_DETECTION"
-					},
-					{
-						"type":"LOGO_DETECTION"
-                    }/*,
-					{
-                      "type":"LABEL_DETECTION"
-                  }*/
-                  ]
-              }
-              ]
-          }
-
-          http.post("https://vision.googleapis.com/v1/images:annotate?key=AIzaSyAte0aN6JdRCHpehzpwmebaKeqolfgnk5o", JSON.stringify(body),
-          	{headers: headers})
-          .map(response => response.json())
-          .subscribe(data => {
-          	console.log("response from google vision");
-          	console.log(data);
-          	resolve(data);
-          })
-      });
-	}
 
 	static isValidMailFormat(control: FormControl){
 
