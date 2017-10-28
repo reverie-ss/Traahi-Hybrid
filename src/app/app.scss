@@ -1,6 +1,4 @@
-// http://ionicframework.com/docs/theming/
-
-
+// http://ionicframework.com/docs/v2/theming/
 // App Global Sass
 // --------------------------------------------------
 // Put style rules here that you want to apply globally. These
@@ -14,3 +12,350 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+@font-face {
+    font-family: 'monaKo';
+    src: url($font-path + '/MonaKo.ttf') format('truetype'),
+    url($font-path + '/MonaKo.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Century Gothic';
+    src: url($font-path + '/Gothic.ttf') format('truetype'),
+    url($font-path + '/Gothic.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Century Gothic';
+    src: url($font-path + '/Gothic Bold.ttf') format('truetype'),
+    url($font-path + '/Gothic Bold.woff') format('woff');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: 'Century Gothic';
+    src: url($font-path + '/Gothic Bold Italic.ttf') format('truetype'),
+    url($font-path + '/Gothic Bold Italic.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Century Gothic';
+    src: url($font-path + '/Gothic Italic.ttf') format('truetype'),
+    url($font-path + '/Gothic Italic.woff') format('woff');
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Arial';
+    src: url($font-path + '/Arial.ttf') format('truetype'),
+    url($font-path + '/Arial.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Arial';
+    src: url($font-path + '/Arial Bold.ttf') format('truetype'),
+    url($font-path + '/Arial Bold.woff') format('woff');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: 'Arial';
+    src: url($font-path + '/Arial Italic.ttf') format('truetype'),
+    url($font-path + '/Arial Italic.woff') format('woff');
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Arial';
+    src: url($font-path + '/Arial Bold Italic.ttf') format('truetype'),
+    url($font-path + '/Arial Bold Italic.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+}
+
+.scroll-content {
+  // background-image: url($img-path + '/bgImage.png');
+  background-size: cover;
+}
+
+ion-avatar {
+  display: flex;
+  flex-direction: column;
+  /* align flex items vertically */
+  justify-content: center;
+  /* center items vertically, in this case */
+  align-items: center;
+  /* center single-line items horizontally, in this case */
+  align-content: center;
+  /* center multi-line items horizontally, in this case */
+}
+
+.title {
+  width: 85%;
+  font-family: $secondary-font;
+  font-size: 4vw;
+  color: color($colors,dark);
+}
+
+.icon {
+  width: 100%;
+  color: color($colors,dark);
+}
+
+.menu-inner {
+  width: calc(100% - 20%) !important;
+}
+
+.myBg {
+  background-color: #F8F8F8;
+}
+
+.white-long-btn {
+    border-radius: 15px;
+    background-color: #fb6e14;
+    color: color($colors, white);
+    font-size: 5vw;
+    height: 50%;
+    width: 80%;
+    margin: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.blue-long-btn {
+    border-radius: 15px;
+    background-color: #3b5998;
+    color: white;
+    font-size: 5vw;
+    height: 50%;
+    width: 80%;
+    margin: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.light-blue-long-btn {
+    border-radius: 15px;
+    background-color: color($colors, primary);
+    color: white;
+    font-size: 5vw;
+    width: 80%;
+    margin: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.red-long-btn {
+    border-radius: 15px;
+    background-color: #dd493d;
+    color: white;
+    font-size: 5vw;
+    height: 50%;
+    width: 80%;
+    margin: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.white-text {
+    color: white;
+}
+
+.text-btn {
+    font-size: 4vw;
+    margin: auto;
+}
+
+.message {
+  font-size: 4vw;
+  font-family: $secondary-font;
+  margin-left: 10px;
+}
+
+.message-center {
+    @extend .message;
+    text-align: center;
+}
+
+.message-left {
+    @extend .message;
+    text-align: left;
+}
+
+.white-line-text-input {
+    border: 0;
+  outline: 0;
+  background: transparent;
+  border-bottom: 1px solid white;
+  font-family: $secondary-font;
+}
+
+.blue-line-text-input {
+    border: 0;
+  outline: 0;
+  background: transparent;
+  border-bottom: 1px solid color($colors, primary);
+}
+
+.stretch-to-fit {
+    height: auto;
+    width: 100%;
+}
+
+.light-blue-background {
+    background-color: color($colors, primary);
+}
+
+.new-item-top-section {
+    @extend .light-blue-background;
+    @extend .stretch-to-fit;
+}
+
+.fade-in-out {
+  -webkit-animation: fadeIn 0.3s;
+  -moz-animation: fadeIn 0.3s;
+  animation: fadeIn 0.3s;
+  position: absolute;
+}
+
+.dataForm {
+  font-size: 4vw;
+  font-family: $secondary-font;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.gender-select {
+	max-width: inherit;
+}
+
+.buttonsBar {
+    width: 100%;
+    height: 10%;
+    background-color: color($colors, primary);
+}
+
+.footer-btn {
+    /*width: 32%;*/
+	text-align: center;
+    height: 100%;
+    font-size: 5vw;
+    color: $text-input-placeholder-color;
+    background-color: color($colors, primary);
+    opacity: 0.8;
+	border-left: 1px solid $text-input-placeholder-color;
+}
+
+.tabbar {
+	background-color: color($colors, primary) !important;
+}
+
+.fab-close-icon {
+	display: none;
+}
+
+.icon-font-size {
+	font-size: 9vw;
+}
+
+.pending-icon {
+	@extend .icon-font-size;
+	color: red;
+}
+
+.verified-icon {
+	@extend .icon-font-size;
+	color: darkgreen;
+}
+
+.expired-icon {
+	@extend .icon-font-size;
+	color: darkgrey;
+}
+
+.xt-card {
+	padding: 5px 8px 5px 8px !important;
+}
+
+.starEmpty {
+	// background-image: url($img-path + "/starEmpty.png");
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center;
+	background-color: transparent;
+	width: 8vw;
+	height: 8vw;
+}
+
+.starFull {
+	// background-image: url($img-path + "/starFull.png");
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center;
+	background-color: transparent;
+	width: 8vw;
+	height: 8vw;
+}
+
+[padding-top] .scroll-content {
+  padding-top: 1px !important;
+}
+
+.avatar-md {
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+}
+
+.header {
+  font-family: $main-font;
+  font-weight: bold;
+  font-size: 7vw;
+}
+
+page-app {
+  .item-inner {
+    margin-left: 0px !important;
+  }
+
+  .name {
+    font-family: $main-font;
+    font-size: 5vw;
+    color: white;
+  }
+
+  .slideout-header {
+  	padding-top: 5%;
+  	padding-bottom: 5%;
+    background: color($colors, primary);
+  }
+
+}
+
+.progress-radial {
+  float: left;
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 2px solid #2f3439;
+  background-color: #fb6e14;
+  text-align: center;
+}
+
+/* -------------------------------------
+ * Optional centered circle w/text
+ * ------------------------------------- */
+.progress-radial .overlay {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  background-color: #fffde8;
+  border-radius: 50%;
+  margin-left: 20px;
+  margin-top: 20px;
+  text-align: center;
+  line-height: 60px;
+  font-size: 16px;
+}
