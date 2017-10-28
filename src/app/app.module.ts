@@ -13,8 +13,16 @@ import { ListPage } from '../pages/list/list';
 import { Connectivity} from '../providers/connectivity/connectivity';
 import { GoogleMaps } from '../providers/connectivity/google-maps';
 import { Locations } from '../providers/connectivity/locations';
-import {HttpModule} from '@angular/http';
+import { HttpModule } from '@angular/http';
+import { UserData } from '../providers/userdata';
+import { Storage } from '@ionic/storage';
+import { Firebase } from '@ionic-native/firebase';
 
+
+
+export function provideStorage() {
+ return new Storage({ name: 'iddb' });
+}
 
 @NgModule({
   declarations: [
@@ -41,9 +49,13 @@ import {HttpModule} from '@angular/http';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
+    { provide: Storage, useFactory: provideStorage },
     Connectivity,
     GoogleMaps,
-    Locations
+    Locations,
+    UserData,
+    Connectivity,
+    Firebase
   ]
 })
 export class AppModule {}

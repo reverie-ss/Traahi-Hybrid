@@ -1,3 +1,96 @@
 page-home {
+.scroll-content {
+    background-color: color($colors, primary);
+    background-image: none;
 
+    form {
+        width: 100%;
+    }
+
+    ion-row {
+      align-items: center;
+      text-align: center;
+    }
+
+    .top-section {
+        background-color: white;
+        @extend .stretch-to-fit;
+    }
+
+    ion-col {
+      align-items: center;
+      text-align: center;
+    }
+
+    .btn-row {
+      padding-top: 8px;
+      padding-bottom: 8px;
+      width: 100%;
+    }
+
+    .or {
+      font-size: 6vw;
+      font-family: $secondary-font;
+      color: white;
+      text-align: center;
+    }
+
+    .forgotPassword {
+      font-size: 4vw;
+      font-family: $secondary-font;
+      color: orange;
+      text-align: center;
+    }
+
+    .register {
+      font-size: 6vw;
+      font-family: $secondary-font;
+      color: orange;
+      text-align: center;
+    }
+
+    .line {
+      background-color: rgb(255, 255, 255);
+      opacity: 0.502;
+    }
+
+    .lineVert {
+      color: rgb(255, 255, 255);
+      opacity: 0.502;
+    }
+
+    .usernameIcon {
+
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+      margin: auto;
+      opacity: 0.8;
+      align-content: center;
+      color: white;
+    }
+
+    .passwordIcon {
+
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+      margin: auto;
+      opacity: 0.8;
+      align-content: center;
+      color: white;
+    }
+    .center {
+      margin: auto;
+      width: 60%;
+      border: 3px solid #73AD21;
+      padding: 10px;  
+    }
+    input::-webkit-input-placeholder {
+        color: $textinput-placeholder-text-color;
+    }
+    input {
+        color: white;
+    }
+  }
 }
