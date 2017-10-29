@@ -2,9 +2,12 @@ import { Component } from '@angular/core';
 import {Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { IonicPage, ModalController, Platform, NavParams, ViewController, NavController, LoadingController, ActionSheetController } from 'ionic-angular';
 
-import { TabsPage } from '../tabs/tabs';
+import { MapPage } from '../map/map';
 import { UserData } from '../../providers/userdata';
 import { Toolbox } from '../../providers/toolbox';
+import { BloodbanksPage } from '../bloodbanks/bloodbanks';
+import { AddcontactsPage } from '../addcontacts/addcontacts';
+import { HomePage } from '../home/home';
 
 import firebase from 'firebase';
 import { Camera, CameraOptions } from '@ionic-native/camera';
@@ -29,11 +32,21 @@ export class DashboardPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DashboardPage');
-  }
-  	hospitals(){
-		console.log("Hospitals buton Clicked");
-		this.navCtrl.push(TabsPage);
+  }  hospitals(){
+  console.log("Hospitals buton Clicked");
+  this.navCtrl.push(MapPage);
 
+  }
+  bloodbanks(){
+    this.navCtrl.push(BloodbanksPage);
+  }
+  addContacts(){
+    this.navCtrl.push(AddcontactsPage);
+  }
+  signout(){
+    this.navCtrl.push(HomePage);
+    return firebase.auth().signOut();
+    
   }
 
   sendreport(){
@@ -110,10 +123,10 @@ export class DashboardPage {
         </ion-row>
           	<ion-scroll scrollX="true" style="width:100%; height:70px" >
         		<ion-row nowrap class="headerChip">
-                	<button ion-button id="type1" color="secondary" outline (pressed)="emergencyType('1')">Murder</button>
-                	<button ion-button id="type2" color="secondary" outline (pressed)="emergencyType('2')">Rape</button>
-                	<button ion-button id="type3" color="secondary" outline (pressed)="emergencyType('3')">Accident</button>
-                	<button ion-button id="type4" color="secondary" outline (pressed)="emergencyType('4')">Assault</button>
+                	<button ion-button id="type1" color="secondary" outline (tap)="emergencyType('1')">Murder</button>
+                	<button ion-button id="type2" color="secondary" outline (tap)="emergencyType('2')">Rape</button>
+                	<button ion-button id="type3" color="secondary" outline (tap)="emergencyType('3')">Accident</button>
+                	<button ion-button id="type4" color="secondary" outline (tap)="emergencyType('4')">Assault</button>
         		</ion-row>
       		</ion-scroll>
 

@@ -13,15 +13,16 @@ import firebase from 'firebase';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import{ AngularFireModule } from 'angularfire2';
 import { Toolbox } from '../providers/toolbox';
+import { SignupPage } from '../pages/signup/signup';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { MapPage } from '../pages/map/map';
-import { TabsPage } from '../pages/tabs/tabs';
 import { DashboardPage } from '../pages/dashboard/dashboard';
 import { ModalContentPage } from '../pages/dashboard/dashboard';
-
-import { ListPage } from '../pages/list/list';
+import { BloodbanksPage } from '../pages/bloodbanks/bloodbanks';
+import {AddcontactsPage} from '../pages/addcontacts/addcontacts';
+import { AuthProvider } from '../providers/auth/auth';
 import { Connectivity} from '../providers/connectivity/connectivity';
 import { GoogleMaps } from '../providers/connectivity/google-maps';
 import { Locations } from '../providers/connectivity/locations';
@@ -47,9 +48,10 @@ export function provideStorage() {
   declarations: [
   MyApp,
   HomePage,
-  TabsPage,
+  AddcontactsPage,
   MapPage,
-  ListPage,
+  BloodbanksPage,
+  SignupPage,
   DashboardPage,
   ModalContentPage
   ],
@@ -64,9 +66,10 @@ export function provideStorage() {
   entryComponents: [
   MyApp,
   HomePage,
-  TabsPage,
+   AddcontactsPage,
   MapPage,
-  ListPage,
+  BloodbanksPage,
+  SignupPage,
   DashboardPage,
   ModalContentPage
   ],
@@ -79,6 +82,7 @@ export function provideStorage() {
   GoogleMaps,
   Locations,
   UserData,
+  AuthProvider,
   Connectivity,
   Firebase,
   ModalContentPage,

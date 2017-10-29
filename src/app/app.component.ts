@@ -11,12 +11,14 @@ import { UserData } from '../providers/userdata';
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
 
 import {HomePage} from '../pages/home/home'
+import {DashboardPage} from '../pages/dashboard/dashboard'
+
 @Component({
   templateUrl: 'app.html',
   providers: [GoogleMaps, Connectivity,Locations]
 })
 export class MyApp {
-  rootPage:any = HomePage;
+  rootPage:any = DashboardPage;
 
   constructor(public platform: Platform,public statusBar: StatusBar,public splashScreen: SplashScreen,
     public fcm: FCM, private push: Push, public alertCtrl: AlertController, public userdata: UserData) {

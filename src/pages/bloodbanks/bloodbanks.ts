@@ -1,14 +1,15 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { NavController, Platform } from 'ionic-angular';
 import { Geolocation,GeolocationOptions ,Geoposition ,PositionError } from 'ionic-native';
+import {Http} from '@angular/http';
+import 'rxjs/Rx';
 
  declare var google;
 @Component({
-  selector: 'page-map',
-  templateUrl: 'map.html'
+  selector: 'page-bloodbanks',
+  templateUrl: 'bloodbanks.html'
 })
-export class MapPage {
-
+export class BloodbanksPage {
 
     options : GeolocationOptions;
     currentPos : Geoposition;
@@ -17,12 +18,10 @@ export class MapPage {
     service:any;
     name:any;
 
- 
-  
 
     @ViewChild('map') mapElement: ElementRef;
  
-    constructor(public navCtrl: NavController, public platform: Platform) { }
+    constructor(public http:Http,public navCtrl: NavController, public platform: Platform) { }
 
     //Method is being called when the page is being loaded
     ionViewDidEnter()
@@ -31,30 +30,10 @@ export class MapPage {
     }
 
     //Method used to get the list of nearby hospitals
-    getHospitals(latLng)
+    getBloodBanks(latLng)
     {
     var service = new google.maps.places.PlacesService(this.map);
-    let request = {
-        location : latLng,
-        radius : 8047 ,
-        types: ["police"]
-                  };
-    return new Promise((resolve,reject)=>
-          {
-              service.nearbySearch(request,function(results,status)
-                {
-                  if(status === google.maps.places.PlacesServiceStatus.OK)
-                      {
-                        resolve(results);    
-                      }
-                  else
-                      {    
-                      reject(status);
-                      }
-
-                }); 
-          });
-
+return this.http.get("https://api.data.gov.in/resource/fced6df9-a360-4e08-8ca0-f283fc74ce15?format=json&api-key=579b464db66ec23bdd000001bed23e86ab344c315a56324342b00e58&limit=100&filters[_state]=Odisha").map(res=>res.json());
     }
 
     //Method to get user's current position
@@ -78,20 +57,27 @@ export class MapPage {
     //Method to create a marker
     createMarker(place)
     {
+    	var myLatlng = new google.maps.LatLng(place._latitude,place._longitude);
       let marker = new google.maps.Marker({
         map: this.map,
         animation: google.maps.Animation.DROP,
-        position: place.geometry.location
+        position: myLatlng
       });   
+
       marker.addListener('click',function(){
-        console.log(place.geometry.location);
+        console.log(place._mobile);
+        if(place._mobile=="")
+        {
+        	place._mobile="Not Available";
+        }
         let content = '<div id="content">'+
             '<div id="siteNotice">'+
             '</div>'+
-            '<h1 id="firstHeading" class="firstHeading">'+place.name+'</h1>'+
-            '<h2 id="secondHeading" class="secondHeading">Security</h2>'+
+            '<h1 id="firstHeading" class="firstHeading">'+place._blood_bank_name+'</h1>'+
+            '<h2 id="secondHeading" class="secondHeading">BloodBank</h2>'+
             '<div id="bodyContent">'+
-            '<h4>'+place.vicinity+'</h4>'+
+            '<h4>'+place._address+','+place._district+'</h4>'+
+            '<h5> Mobile Number: '+place._mobile+'</h5>'+
             '</div>'+
             '</div>';          
     let infoWindow = new google.maps.InfoWindow({
@@ -119,14 +105,15 @@ export class MapPage {
 
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
 
-    this.getHospitals(latLng).then((results : Array<any>)=>{
-        this.places = results;
-        this.addMarker(results);
-        console.log(this.places[0].name);
+    this.getBloodBanks(latLng).subscribe(response => {
+    	console.log(response);
+        this.places = response.records;
+        this.addMarker(response.records);
+        console.log(this.places[0]._blood_bank_name);
 
-        for(let i = 0 ;i < results.length ; i++)
+        for(let i = 0 ;i < response.records.length ; i++)
           {
-            this.createMarker(results[i]);
+            this.createMarker(response.records[i]);
           }
           },(status)=>console.log(status));
 

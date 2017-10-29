@@ -1,12 +1,18 @@
 import { Component } from '@angular/core';
 import { MapPage } from '../map/map';
+import { AlertController } from 'ionic-angular';
 import { UserData } from '../../providers/userdata';
 import { Toolbox } from '../../providers/toolbox';
 import { Connectivity} from '../../providers/connectivity/connectivity';
 import { Firebase } from '@ionic-native/firebase';
+import { EmailValidator } from '../../validators/email';
+import { AuthProvider } from '../../providers/auth/auth';
 import {Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { DashboardPage } from '../dashboard/dashboard';
-import { IonicPage, ModalController, Platform, NavParams, ViewController, NavController, LoadingController } from 'ionic-angular';
+import { SignupPage } from '../signup/signup';
+
+
+import { IonicPage, ModalController, Loading, Platform, NavParams, ViewController, NavController, LoadingController } from 'ionic-angular';
 
 
 
@@ -16,10 +22,12 @@ import { IonicPage, ModalController, Platform, NavParams, ViewController, NavCon
   providers: [ UserData ]
 })
 export class HomePage {
+public loading: Loading;
 
   private loginForm: FormGroup;
-  constructor(public navCtrl: NavController,public connectivity: Connectivity,
-   private loadingController:LoadingController,  private formBuilder: FormBuilder, private firebase: Firebase, public userdata: UserData) {
+  constructor(public navCtrl: NavController,public alertCtrl: AlertController,public connectivity: Connectivity,
+   private loadingController:LoadingController,  public authProvider: AuthProvider, 
+  private formBuilder: FormBuilder, private firebase: Firebase, public userdata: UserData) {
   	    this.loginForm = this.formBuilder.group({
       phonenumber: ['', Validators.required],
       password: ['', Validators.required]
@@ -28,42 +36,36 @@ export class HomePage {
   	}
 
 
-   login(){
-      this.navCtrl.push(DashboardPage);
-    //call generate token api
-      // this.userdata.number = this.loginForm.controls["phonenumber"].value;
-      // this.userdata.password = this.loginForm.controls["password"].value;
-
-      // Promise.resolve("proceed")
-      // .then((proceed) => {
-      //   this.userdata.show_loading("Authenticating");
-      // }).then((proceed) => {
-      //   //value - data to be sent to register
-      //   let auth = {
-      //     mobile_number: this.userdata.number,
-      //     password: this.userdata.password,
-      //   };
-      //   let values = {
-      //     auth
-      //   }
-
-      // }).then((auth_details: any) => {
-
-      //   console.log("Storing data in local");
-      //   //store details in local db
-      //   this.userdata.localdb.set("number", this.userdata.number);
-      //   this.userdata.localdb.set("password", this.userdata.password);
-
-      //   this.userdata.dismiss_loading();
-      //   return "proceed";
-      // }).then((proceed) => {
-      //     //go to dashboard page
-      //   console.log("Navigating to dashboard page");
-      //   this.navCtrl.push(DashboardPage);
-      // }).catch((error) => {
-      //   console.log("Error registering user");
-      //   this.userdata.dismiss_loading();
-      // });
+   login(): void {
+  if (!this.loginForm.valid){
+    console.log(this.loginForm.value);
+  } else {
+    this.authProvider.loginUser(this.loginForm.value.phonenumber, 
+      this.loginForm.value.password)
+    .then( authData => {
+      this.loading.dismiss().then( () => {
+        this.navCtrl.setRoot(DashboardPage);
+      });
+    }, error => {
+      this.loading.dismiss().then( () => {
+        let alert = this.alertCtrl.create({
+          message: error.message,
+          buttons: [
+            {
+              text: "Ok",
+              role: 'cancel'
+            }
+          ]
+        });
+        alert.present();
+      });
+    });
+    this.loading = this.loadingController.create();
+    this.loading.present();
   }
+}
+goToRegister() { 
+  this.navCtrl.push(SignupPage); 
+}
 
 }
