@@ -45,6 +45,23 @@
 
   <!-- The main bundle js is generated during the build process -->
   <script src="build/main.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAFnh6w0FMnGwcNW6G3cstWZvfg5UhOt44",
+    authDomain: "traahi-invincians.firebaseapp.com",
+    databaseURL: "https://traahi-invincians.firebaseio.com",
+    projectId: "traahi-invincians",
+    storageBucket: "traahi-invincians.appspot.com",
+    messagingSenderId: "1008075057808"
+  };
+  firebase.initializeApp(config);
+</script>
 
+<script src="https://www.gstatic.com/firebasejs/4.5.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.5.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.5.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.5.0/firebase-messaging.js"></script>
 </body>
 </html>

@@ -6,6 +6,13 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { Storage } from '@ionic/storage';
 import { Firebase } from '@ionic-native/firebase';
 import { HttpModule } from '@angular/http';
+import { FCM } from '@ionic-native/fcm';
+import { Push } from '@ionic-native/push';
+
+import firebase from 'firebase';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+import{ AngularFireModule } from 'angularfire2';
+import { Toolbox } from '../providers/toolbox';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -20,49 +27,64 @@ import { GoogleMaps } from '../providers/connectivity/google-maps';
 import { Locations } from '../providers/connectivity/locations';
 import { UserData } from '../providers/userdata';
 
+export const firebaseConfig={
+
+  apiKey: "AIzaSyAFnh6w0FMnGwcNW6G3cstWZvfg5UhOt44",
+  authDomain: "traahi-invincians.firebaseapp.com",
+  databaseURL: "https://traahi-invincians.firebaseio.com",
+  projectId: "traahi-invincians",
+  storageBucket: "traahi-invincians.appspot.com",
+  messagingSenderId: "1008075057808"
+}
+firebase.initializeApp(firebaseConfig)
 
 
 export function provideStorage() {
- return new Storage({ name: 'iddb' });
+  return new Storage({ name: 'iddb' });
 }
 
 @NgModule({
   declarations: [
-    MyApp,
-    HomePage,
-    TabsPage,
-    MapPage,
-    ListPage,
-    DashboardPage,
-    ModalContentPage
+  MyApp,
+  HomePage,
+  TabsPage,
+  MapPage,
+  ListPage,
+  DashboardPage,
+  ModalContentPage
   ],
   imports: [
-    BrowserModule,
-    HttpModule,
-    IonicModule.forRoot(MyApp)
+  BrowserModule,
+  HttpModule,
+  IonicModule.forRoot(MyApp),
+  AngularFireModule.initializeApp(firebaseConfig),
+  AngularFirestoreModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
-    HomePage,
-    TabsPage,
-    MapPage,
-    ListPage,
-    DashboardPage,
-    ModalContentPage
+  MyApp,
+  HomePage,
+  TabsPage,
+  MapPage,
+  ListPage,
+  DashboardPage,
+  ModalContentPage
   ],
   providers: [
-    StatusBar,
-    SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
-    { provide: Storage, useFactory: provideStorage },
-    Connectivity,
-    GoogleMaps,
-    Locations,
-    UserData,
-    Connectivity,
-    Firebase,
-    ModalContentPage
+  StatusBar,
+  SplashScreen,
+  {provide: ErrorHandler, useClass: IonicErrorHandler},
+  { provide: Storage, useFactory: provideStorage },
+  Connectivity,
+  GoogleMaps,
+  Locations,
+  UserData,
+  Connectivity,
+  Firebase,
+  ModalContentPage,
+  FCM,
+  Push,
+  Toolbox
   ]
 })
 export class AppModule {}

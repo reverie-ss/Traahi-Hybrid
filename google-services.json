@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1008075057808",
+    "firebase_url": "https://traahi-invincians.firebaseio.com",
+    "project_id": "traahi-invincians",
+    "storage_bucket": "traahi-invincians.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1008075057808:android:7075a19e398a05d2",
+        "android_client_info": {
+          "package_name": "com.invincix.traahi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1008075057808-vajlsgntk55gcc47gnet9qa7k93dtq78.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGvMMpdZTs9cb0qKA3lkcWrYn9Kv6SUDY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

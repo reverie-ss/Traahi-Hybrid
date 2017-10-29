@@ -3,6 +3,7 @@ import { File } from '@ionic-native/file';
 import { Transfer } from 'ionic-native';
 import { Http, Headers } from '@angular/http';
 import {FormControl} from '@angular/forms';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 
 export class Toolbox {
 
@@ -13,6 +14,36 @@ export class Toolbox {
 
 	}
 
+	// Laurence: Use this method to bring up the cordova camera or gallery plugin
+	static launch_camera_or_gallery(sourceType: number): Promise<string> {
+        /* sourceType should be either:
+        - Camera.PictureSourceType.CAMERA or
+        - Camera.PictureSourceType.PHOTOLIBRARY
+        */
+        return new Promise((resolve, reject) => {
+        	let camera = new Camera();
+        	let options: CameraOptions = {
+        		quality: 95,
+        		sourceType: sourceType,
+        		destinationType: camera.DestinationType.DATA_URL,
+        		encodingType: camera.EncodingType.JPEG,
+        		mediaType: camera.MediaType.PICTURE,
+        		correctOrientation: true,
+        		targetHeight: 1280,
+        		targetWidth: 720
+        	}
+
+        	camera.getPicture(options).then((imageData) => {
+
+        		// imageData is a base64 encoded string
+        		console.log("imageData = " + imageData)
+        		resolve(imageData);
+        	}, (error) => {
+        		console.log("Error at camera plugin");
+        		reject(error);
+        	});
+        });
+    }
 
     static haveInternet(): boolean {
     	let network = new Network();
