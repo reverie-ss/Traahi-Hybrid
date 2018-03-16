@@ -16,7 +16,10 @@ import { Toolbox } from '../providers/toolbox';
 import { SignupPage } from '../pages/signup/signup';
 
 import { MyApp } from './app.component';
+import { CanvasDrawComponent } from '../components/canvas-draw/canvas-draw'
+
 import { HomePage } from '../pages/home/home';
+import { InformationPage } from '../pages/information/information';
 import { MapPage } from '../pages/map/map';
 import { DashboardPage } from '../pages/dashboard/dashboard';
 import { ModalContentPage } from '../pages/dashboard/dashboard';
@@ -53,6 +56,8 @@ export function provideStorage() {
   BloodbanksPage,
   SignupPage,
   DashboardPage,
+  InformationPage,
+  CanvasDrawComponent,
   ModalContentPage
   ],
   imports: [
@@ -67,6 +72,7 @@ export function provideStorage() {
   MyApp,
   HomePage,
    AddcontactsPage,
+   InformationPage,
   MapPage,
   BloodbanksPage,
   SignupPage,
@@ -88,7 +94,7 @@ export function provideStorage() {
   ModalContentPage,
   FCM,
   Push,
-  Toolbox
+  Toolbox,
   ]
 })
 export class AppModule {}

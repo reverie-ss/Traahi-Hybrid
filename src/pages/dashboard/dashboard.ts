@@ -1,16 +1,20 @@
+
 import { Component } from '@angular/core';
 import {Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { IonicPage, ModalController, Platform, NavParams, ViewController, NavController, LoadingController, ActionSheetController } from 'ionic-angular';
-
+import { ActionSheetController } from 'ionic-angular'
+import { IonicPage, ModalController, Platform, NavParams, ViewController, NavController, LoadingController } from 'ionic-angular';
+import firebase from 'firebase';
 import { MapPage } from '../map/map';
-import { UserData } from '../../providers/userdata';
-import { Toolbox } from '../../providers/toolbox';
+import { HomePage } from '../home/home';
 import { BloodbanksPage } from '../bloodbanks/bloodbanks';
 import { AddcontactsPage } from '../addcontacts/addcontacts';
-import { HomePage } from '../home/home';
+import { UserData } from '../../providers/userdata';
+import { Toolbox } from '../../providers/toolbox';
+import {Http,Headers} from '@angular/http';
+import 'rxjs/Rx';
+import { Geolocation,GeolocationOptions ,Geoposition ,PositionError } from 'ionic-native';
 
-import firebase from 'firebase';
-import { Camera, CameraOptions } from '@ionic-native/camera';
+
 /**
  * Generated class for the DashboardPage page.
  *
@@ -25,14 +29,83 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
   providers: [ UserData ]
 })
 export class DashboardPage {
+authkey:string = "175066AfkBDqjLjK6e59be06c7";
+options:any;
+currentPos:any;
+contactnumber:any;
+data_latitude:any;
+data_longitude:any;
+mobiles:string;
+message:string;
+  constructor(public navCtrl: NavController, public http:Http, public navParams: NavParams, public modalCtrl : ModalController, public userdata : UserData) {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl : ModalController,
-   public userdata : UserData, public actionSheetCtrl: ActionSheetController) {
   }
+   getUserPosition()
+    {
+          this.options = {
+            enableHighAccuracy : false
+                         };
+
+        Geolocation.getCurrentPosition(this.options).then((pos : Geoposition) => {
+
+        this.currentPos = pos;     
+        console.log(pos);
+        this.data_latitude=pos.coords.latitude;
+        this.data_longitude=pos.coords.longitude;
+       },(err : PositionError)=>{
+        console.log("error : " + err.message);
+    
+          })
+    }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad DashboardPage');
-  }  hospitals(){
+    this.getUserPosition();
+    this.getInfo();
+}
+
+  getInfo(){
+    var this2 = this;
+    var userId;
+
+  Promise.resolve("proceed")
+      .then((proceed) => {
+        this.userdata.show_loading("Getting UID... Please wait.");
+        // Validation. Ensure both passwords are identical
+          userId = firebase.auth().currentUser.uid;
+
+        if (userId == '') {
+          this.userdata.pop_alert("Hang on...", "You have signed out", ["OK"]);
+          return Promise.reject("uid not found");
+        }
+      }).then(() => {
+
+        return this.generate_number(this2,userId);
+      }).then((proceed) => {
+        //TODO: this.navCtrl.setRoot(Activation);
+
+        console.log(this2.contactnumber);
+        this.userdata.dismiss_loading();
+      }).catch((error) => {
+        console.log("Error getting userid");
+        console.log(error);
+        this.userdata.dismiss_loading();
+      });
+  }
+   generate_number(this2: any, userId: any): Promise<any> {
+      return new Promise((resolve, reject) => {
+        //  generate user token (auth details)
+         firebase.database().ref('/userProfile/' + userId + '/contacts').once('value').then(function(snapshot) {
+          this2.contactnumber=snapshot.val().ContactNumber;
+          console.log(this2.contactnumber);
+          resolve(this2.contactnumber);
+        })
+
+      });
+      
+    }
+
+
+   hospitals(){
   console.log("Hospitals buton Clicked");
   this.navCtrl.push(MapPage);
 
@@ -48,10 +121,41 @@ export class DashboardPage {
     return firebase.auth().signOut();
     
   }
+  sos(){
+    this.message="I ashis in trouble at https://maps.google.com/?ie=UTF8&ll=" + this.data_latitude + "," + this.data_longitude + " Need urgent help and attention.";
+
+let headers = new Headers();
+        headers.append('Content-Type','application/json');
+        let body={
+     
+     }
+this.http.post("https://control.msg91.com/api/sendhttp.php?authkey=" + this.authkey + "&mobiles=" +this.contactnumber + "&message=" + this.message + "&sender=SAVEME&route=4&country=0",JSON.stringify(body), {headers: headers}).map(res=>res.json()).subscribe(response => {
+console.log("Success");
+})
+
+
+
+let notifBody={
+
+  "notification": {
+    "title": "Help Needed!",
+    "body": "Emergency Situation @ xyz place",
+    "sound": "default",
+    "color": "#FF0000"
+  },
+  "to": "exEVR04oXHs:APA91bHIF655MnqrfCGf4UsXxhICNTZ9ygDsdHP0pTCCRlcorZRoz9UQYK30hNOKAwm6ibqIl3lx6OdcHHEgkT3NNT0G3MILz9-n1AUsUSKC-UtfUkMqBusodGr96kp5CzZeXiq28DIg"
+
+
+}
+this.http.post("https://fcm.googleapis.com/fcm/send",JSON.stringify(notifBody), {headers: headers}).map(res=>res.json()).subscribe(response => {
+  console.log(response);
+})
+
+  }
 
   sendreport(){
-  	this.openModal();
-	}
+   this.openModal();
+}
       openModal() {
 
       let modal = this.modalCtrl.create(ModalContentPage,{charNum: 0});
@@ -110,7 +214,7 @@ export class DashboardPage {
             <ion-list>
               <ion-row>
                 <ion-col>
-					<textarea placeholder="Enter the incident details here!" rows="10" name="comment[text]" id="report_details" cols="40" class="ui-autocomplete-input" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"></textarea>
+          <textarea placeholder="Enter the incident details here!" rows="10" name="comment[text]" id="report_details" cols="40" class="ui-autocomplete-input" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"></textarea>
                 </ion-col>
               </ion-row>
             </ion-list>
@@ -121,14 +225,14 @@ export class DashboardPage {
 
           </ion-col>
         </ion-row>
-          	<ion-scroll scrollX="true" style="width:100%; height:70px" >
-        		<ion-row nowrap class="headerChip">
-                	<button ion-button id="type1" color="secondary" outline (tap)="emergencyType('1')">Murder</button>
-                	<button ion-button id="type2" color="secondary" outline (tap)="emergencyType('2')">Rape</button>
-                	<button ion-button id="type3" color="secondary" outline (tap)="emergencyType('3')">Accident</button>
-                	<button ion-button id="type4" color="secondary" outline (tap)="emergencyType('4')">Assault</button>
-        		</ion-row>
-      		</ion-scroll>
+            <ion-scroll scrollX="true" style="width:100%; height:70px" >
+            <ion-row nowrap class="headerChip">
+                  <button ion-button id="type1" color="secondary" outline (tap)="emergencyType('1')">Murder</button>
+                  <button ion-button id="type2" color="secondary" outline (tap)="emergencyType('2')">Rape</button>
+                  <button ion-button id="type3" color="secondary" outline (tap)="emergencyType('3')">Accident</button>
+                  <button ion-button id="type4" color="secondary" outline (tap)="emergencyType('4')">Assault</button>
+            </ion-row>
+          </ion-scroll>
 
         <ion-row class="btn-row">
           <button class="white-long-btn" type="button" (tap)="submitReport()">Send Report</button>
@@ -175,11 +279,11 @@ export class ModalContentPage {
           return Promise.reject("details not entered");
         }
       }).then((proceed) => {
-      		emergencyInfo = this.checkEmergencyTypes();
-      	 if(emergencyInfo != '')
-      	 	Promise.resolve(emergencyInfo);
-      	 else
-      	 	Promise.reject("No Type Selected");
+          emergencyInfo = this.checkEmergencyTypes();
+         if(emergencyInfo != '')
+           Promise.resolve(emergencyInfo);
+         else
+           Promise.reject("No Type Selected");
       }).then((proceed) => {
         //value - data to be sent to register
         this.sendToDatabase(textarea.value,emergencyInfo,"huhu");
@@ -193,35 +297,35 @@ export class ModalContentPage {
   }
 
   emergencyType(button: number){
-  	console.log();
+    console.log();
 
-  	if(document.getElementById("type"+button).style.backgroundColor == "rgb(50, 219, 100)"){
-  		  	document.getElementById("type"+button).style.backgroundColor = "";
-		  	document.getElementById("type"+button).style.color = "#32db64";
-  	}else{
-  		  	document.getElementById("type"+button).style.backgroundColor = "#32db64";
-		  	document.getElementById("type"+button).style.color = "#fdfdfd";
-  	}
-  	
+    if(document.getElementById("type"+button).style.backgroundColor == "rgb(50, 219, 100)"){
+          document.getElementById("type"+button).style.backgroundColor = "";
+        document.getElementById("type"+button).style.color = "#32db64";
+    }else{
+          document.getElementById("type"+button).style.backgroundColor = "#32db64";
+        document.getElementById("type"+button).style.color = "#fdfdfd";
+    }
+    
   }
 
   checkEmergencyTypes(){
-  	let emergency : string;
-  	emergency = "";
-  	var types = ["Murder", "Rape", "Accident", "Assault", "Others"];
+    let emergency : string;
+    emergency = "";
+    var types = ["Murder", "Rape", "Accident", "Assault", "Others"];
 
-  	for(let i=1;i<=5;i++){
-  		if(document.getElementById("type"+i).style.backgroundColor == "rgb(50, 219, 100)"){
-  			emergency =  types[i-1] + "," + emergency ;
-  		}
-  	
-  	}
-  	console.log(emergency);
-  	return emergency;
+    for(let i=1;i<=5;i++){
+      if(document.getElementById("type"+i).style.backgroundColor == "rgb(50, 219, 100)"){
+        emergency =  types[i-1] + "," + emergency ;
+      }
+    
+    }
+    console.log(emergency);
+    return emergency;
   }
 
 sendToDatabase(details: any, emergencyInfo: string, email: any) {
-	console.log(details);
+  console.log(details);
   firebase.database().ref('reports').push().set({
     emergencyDetails: details,
     emergencyInfo: emergencyInfo
@@ -237,7 +341,7 @@ sendNotification(device_tokens: string){
 }
 
 getPhoto(){
-	let base64data : any;
+  let base64data : any;
     let actionSheet = this.actionSheetCtrl.create({
       title: 'Upload An Image',
       buttons: [
@@ -278,8 +382,8 @@ getPhoto(){
         console.log("Storing data in local");
         //store details in local db
 
- 		(<HTMLImageElement>document.getElementById("evidenceimage")).src = "data:image/png;base64, " + base64data;
- 		document.getElementById("evidenceimageText").textContent = "Image Uploaded";
+     (<HTMLImageElement>document.getElementById("evidenceimage")).src = "data:image/png;base64, " + base64data;
+     document.getElementById("evidenceimageText").textContent = "Image Uploaded";
         this.userdata.dismiss_loading();
         return "proceed";
       }).then((proceed) => {
@@ -287,7 +391,7 @@ getPhoto(){
         console.log("Navigating to dashboard page");
         //this.navCtrl.push(DashBoardPage);
       }).catch((error) => {
-      	document.getElementById("evidenceimageText").textContent = "Image Uploading Error";
+        document.getElementById("evidenceimageText").textContent = "Image Uploading Error";
         console.log("Error registering user");
         this.userdata.dismiss_loading();
       });

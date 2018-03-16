@@ -23,11 +23,18 @@ export class UserData {
   public appInitialised: boolean = false;
   public exitDialog: boolean = false;
   public loadingShown: boolean = false;
+  public departure: string = "Departue";
+  public arrival: string = "Arrival";
+  public flights: any;
+  public bookflights: any;
+
+
 
 
   constructor(public localdb: Storage, public alertCtrl: AlertController, private loadingCtrl: LoadingController,
   private platform: Platform, private firebase: Firebase, private toastCtrl: ToastController) {
     this.db = "dev";
+    this.bookflights = [];
   }
 
   getValue(key): Promise<any> {

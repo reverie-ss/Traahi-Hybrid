@@ -18,7 +18,7 @@ import {DashboardPage} from '../pages/dashboard/dashboard'
   providers: [GoogleMaps, Connectivity,Locations]
 })
 export class MyApp {
-  rootPage:any = DashboardPage;
+  rootPage:any = HomePage;
 
   constructor(public platform: Platform,public statusBar: StatusBar,public splashScreen: SplashScreen,
     public fcm: FCM, private push: Push, public alertCtrl: AlertController, public userdata: UserData) {
@@ -29,8 +29,36 @@ export class MyApp {
       this.initPushNotification();
       console.log("in file");
       statusBar.styleDefault();
+      //this.updateFlights();
       splashScreen.hide();
     });
+  }
+
+  updateFlights(){
+    this.userdata.flights = [{
+      no:101,
+      dept:10,
+      arr:1,
+      from:"Mumbai",
+      to:"Delhi",
+      seats:40,
+      fseat:10,
+      price:10000
+
+    },
+    {
+      no:102,
+      dept:14,
+      arr:16,
+      from:"Mumbai",
+      to:"Bbsr",
+      seats:50,
+      fseat:10,
+      price:5000
+
+    }];
+    this.userdata.bookflights = [];
+    console.log(this.userdata.bookflights[0].from);
   }
 
   initPushNotification() {
@@ -40,15 +68,15 @@ export class MyApp {
       return;
     }
     this.push.hasPermission()
-  .then((res: any) => {
+    .then((res: any) => {
 
-    if (res.isEnabled) {
-      console.log('We have permission to send push notifications');
-    } else {
-      console.log('We do not have permission to send push notifications');
-    }
+      if (res.isEnabled) {
+        console.log('We have permission to send push notifications');
+      } else {
+        console.log('We do not have permission to send push notifications');
+      }
 
-  });
+    });
     const options: PushOptions = {
       android: {},
       ios: {

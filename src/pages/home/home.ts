@@ -36,36 +36,33 @@ public loading: Loading;
   	}
 
 
-   login(): void {
-  if (!this.loginForm.valid){
-    console.log(this.loginForm.value);
-  } else {
-    this.authProvider.loginUser(this.loginForm.value.phonenumber, 
-      this.loginForm.value.password)
-    .then( authData => {
-      this.loading.dismiss().then( () => {
-        this.navCtrl.setRoot(DashboardPage);
+login(): void {
+    if (!this.loginForm.valid){
+      console.log(this.loginForm.value);
+    } else {
+      Promise.resolve("proceed")
+      .then((proceed) => {
+        this.userdata.show_loading("Logging In... Please wait.");
+        // Validation. Ensure both passwords are identical
+        if(this.loginForm.value.phonenumber == 1 && this.loginForm.value.password == 1)
+          Promise.resolve("proceed");
+        else
+          Promise.reject("Invalid Credentials");
+      }).then((proceed) => {
+        //TODO: this.navCtrl.setRoot(Activation);
+    this.navCtrl.push(SignupPage);
+        this.userdata.dismiss_loading();
+      }).catch((error) => {
+        console.log("Error getting userid");
+        console.log(error);
+        this.userdata.dismiss_loading();
       });
-    }, error => {
-      this.loading.dismiss().then( () => {
-        let alert = this.alertCtrl.create({
-          message: error.message,
-          buttons: [
-            {
-              text: "Ok",
-              role: 'cancel'
-            }
-          ]
-        });
-        alert.present();
-      });
-    });
-    this.loading = this.loadingController.create();
-    this.loading.present();
+
+    }
+  }
+
+  goToRegister(){
+    this.navCtrl.push(SignupPage);
   }
 }
-goToRegister() { 
-  this.navCtrl.push(SignupPage); 
-}
 
-}

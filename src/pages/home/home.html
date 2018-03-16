@@ -1,5 +1,6 @@
 
 <ion-content no-bounce>
+    <canvas-draw></canvas-draw>
   <ion-row class="top-section" style="background-color: #5e493a">
     <ion-col></ion-col>
     <ion-col col-8 >
@@ -33,24 +34,6 @@
         <button class="white-long-btn" type="button" (tap)="login();">Login</button>
       </ion-row>
     </form>
-    <ion-row class="btn-row">
-      <ion-col class="forgotPassword" (tap)="forgotPassword();">Forgot Password ?
-      </ion-col>
-    </ion-row>
-    <ion-row class="btn-row">
-      <ion-col class="or">or
-      </ion-col>
-    </ion-row>
-    <ion-row class="btn-row">
-      <ion-col class="social-login-facebook">
-       <img src="./assets/img/facebook.png" style="width:50% ; height:50%;" ng-click="facebookLogin()" >
-      </ion-col>
-      <ion-col class="social-login-gmail">
-         <img src="./assets/img/googleplus.png" style="width:50% ; height:50%;" ng-click="googlelogin()">
-      </ion-col>
-    </ion-row>
-
-
     <ion-row class="btn-row">
       <ion-col>
         <button ion-button class="text-btn register" type="button" block clear (tap)="goToRegister()">Register</button>

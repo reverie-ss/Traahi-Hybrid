@@ -19,21 +19,30 @@ import firebase from 'firebase';
 })
 export class AddcontactsPage {
 
-	counter:any;
-	i:any;
-	contactnumbers:any;
-	contactnames:any;
+  counter:any;
+  i:any;
+  contactnumbers:any;
+  contactnames:any;
   key:any;
 
-  constructor(private storage: Storage,public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
-  	}
+  constructor(private storage: Storage,public navCtrl: NavController,
+     public navParams: NavParams, public alertCtrl: AlertController) {
+    }
 
   ionViewDidLoad() {
 
+  this.getInfo();
 
   }
  
- 
+ getInfo(){
+var userId = firebase.auth().currentUser.uid;
+return firebase.database().ref('/userProfile/' + userId + '/contacts').once('value').then(function(snapshot) {
+  console.log(snapshot.val().ContactName);
+  console.log(snapshot.val().ContactNumber);
+  // ...
+});
+ }
   presentPrompt() {
     console.log(this.key);
   const alert = this.alertCtrl.create({
@@ -58,10 +67,11 @@ export class AddcontactsPage {
           } 
           else if(data.contactname.length<=1) {
 
-            window.alert("Name cant be blank");
+            window.alert("Name can't be blank");
           }
           else{
-          		this.saveData(data.conatactnumber,data.contactname);
+              this.saveUID();
+              this.saveContacts(data.contactname,data.contactnumber);
 
           }
         }
@@ -71,13 +81,19 @@ export class AddcontactsPage {
   alert.present();
 }
 
-  saveData(contactname:string,contactnumber:number): Promise<any> {
-    
-  return firebase.database().ref(`/userProfile/`).set({
+  saveUID(): Promise<any> {
+    var userId = firebase.auth().currentUser.uid;
+  return firebase.database().ref(`/userProfile/` + userId).set({
+    UserID: userId
+  });
+  
+}
+  saveContacts(contactname:string,contactnumber:number): Promise<any> {
+    var userId = firebase.auth().currentUser.uid;
+  return firebase.database().ref(`/userProfile/` + userId + '/contacts').set({
     ContactName: contactname,
     ContactNumber: contactnumber
   });
   
 }
-
 }
